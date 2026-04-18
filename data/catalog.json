@@ -1,6 +1,19 @@
 {
   "products": [
     {
+      "id": "1776528089739",
+      "name": "عينة الوان",
+      "category": "قطن",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "",
+      "images": [],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1",
       "name": "قطن مصري فاخر",
       "category": "قطن",
