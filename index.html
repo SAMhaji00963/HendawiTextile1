@@ -1921,16 +1921,7 @@ function showToast(msg) {
 
 
 // Add sample data if empty
-if (products.length === 0) {
-  const samples = [
-    { id: '1', name: 'قطن مصري فاخر', category: 'قطن', price: '45', width: '150 سم', stock: '80 متر', desc: 'قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.', images: [], featured: true, isNew: true, isSale: false },
-    { id: '2', name: 'حرير طبيعي إيطالي', category: 'حرير', price: '180', width: '140 سم', stock: '30 متر', desc: 'حرير طبيعي من إيطاليا بجودة عالمية، لامع وخفيف الوزن.', images: [], featured: false, isNew: false, isSale: true },
-    { id: '3', name: 'كتان بلجيكي', category: 'كتان', price: '65', width: '160 سم', stock: '50 متر', desc: 'كتان فاخر من بلجيكا، متين ومناسب للملابس والديكور.', images: [], featured: false, isNew: true, isSale: false },
-  ];
-  products = samples;
-  saveData();
-  renderProducts('all');
-}
+
 
 async function initApp() {
   loadGitHubConfigIntoForm();
