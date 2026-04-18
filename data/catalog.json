@@ -9,6 +9,21 @@
       "stock": "80 متر",
       "desc": "قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.",
       "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1-1776527612203-0.png"
+      ],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
+      "id": "1",
+      "name": "منتج 1",
+      "category": "كتان",
+      "price": "50",
+      "width": "150 سم",
+      "stock": "80 متر",
+      "desc": "قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.",
+      "images": [
         "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1-1776527593251-0.png"
       ],
       "featured": true,
