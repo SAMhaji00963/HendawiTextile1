@@ -1,19 +1,5 @@
 {
-  "products": [
-    {
-      "id": "3",
-      "name": "كتان بلجيكي",
-      "category": "كتان",
-      "price": "65",
-      "width": "160 سم",
-      "stock": "50 متر",
-      "desc": "كتان فاخر من بلجيكا، متين ومناسب للملابس والديكور.",
-      "images": [],
-      "featured": false,
-      "isNew": true,
-      "isSale": false
-    }
-  ],
+  "products": [],
   "settings": {
     "whatsapp": "966500000000",
     "msg": "السلام عليكم، أرغب في الاستفسار عن قماش: "
