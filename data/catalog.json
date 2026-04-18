@@ -38,19 +38,6 @@
       "featured": true,
       "isNew": true,
       "isSale": false
-    },
-    {
-      "id": "2",
-      "name": "حرير طبيعي إيطالي",
-      "category": "حرير",
-      "price": "180",
-      "width": "140 سم",
-      "stock": "30 متر",
-      "desc": "حرير طبيعي من إيطاليا بجودة عالمية، لامع وخفيف الوزن.",
-      "images": [],
-      "featured": false,
-      "isNew": false,
-      "isSale": true
     }
   ],
   "settings": {
