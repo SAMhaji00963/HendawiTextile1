@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776528280491",
+      "name": "عينة 1",
+      "category": "جاكار",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776528280491-1776528280491-0.jpg"
+      ],
+      "featured": true,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776528137195",
       "name": "عينة 2",
       "category": "صوف",
