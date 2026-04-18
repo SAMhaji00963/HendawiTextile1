@@ -25,19 +25,6 @@
       "featured": false,
       "isNew": true,
       "isSale": false
-    },
-    {
-      "id": "1",
-      "name": "قطن مصري فاخر",
-      "category": "قطن",
-      "price": "45",
-      "width": "150 سم",
-      "stock": "80 متر",
-      "desc": "قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.",
-      "images": [],
-      "featured": true,
-      "isNew": true,
-      "isSale": false
     }
   ],
   "settings": {
