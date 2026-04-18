@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776537406095",
+      "name": "ثقف",
+      "category": "قطن",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "ثق",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776537406095-1776537406095-0.jpg"
+      ],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776529214306",
       "name": "دفتر الوان",
       "category": "أخرى",
