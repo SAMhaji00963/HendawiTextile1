@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776537592862",
+      "name": "المتوفر لدينا1",
+      "category": "قطن",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776537592862-1776537592862-0.png"
+      ],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776537406095",
       "name": "ثقف",
       "category": "قطن",
