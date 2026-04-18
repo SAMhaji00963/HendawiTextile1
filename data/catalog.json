@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776528195819",
+      "name": "عينة 4",
+      "category": "صوف",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "لا يوجد",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776528195819-1776528195819-0.jpg"
+      ],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776528171595",
       "name": "عينة 3",
       "category": "صوف",
