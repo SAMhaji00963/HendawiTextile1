@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776537635462",
+      "name": "المتوفر لدينا 2",
+      "category": "أخرى",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776537635462-1776537635462-0.png"
+      ],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776537592862",
       "name": "المتوفر لدينا1",
       "category": "قطن",
