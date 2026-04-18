@@ -1,6 +1,21 @@
 {
   "products": [
     {
+      "id": "1776528401875",
+      "name": "عينة الوان",
+      "category": "أخرى",
+      "price": "",
+      "width": "0",
+      "stock": "0",
+      "desc": "لايوجد وصف",
+      "images": [
+        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776528401875-1776528401875-0.jpg"
+      ],
+      "featured": true,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776528137195",
       "name": "عينة 2",
       "category": "صوف",
