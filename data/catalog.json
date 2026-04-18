@@ -1,6 +1,19 @@
 {
   "products": [
     {
+      "id": "1776528171595",
+      "name": "عينة 3",
+      "category": "صوف",
+      "price": "",
+      "width": "",
+      "stock": "",
+      "desc": "لا يوجد",
+      "images": [],
+      "featured": false,
+      "isNew": true,
+      "isSale": false
+    },
+    {
       "id": "1776528137195",
       "name": "عينة 2",
       "category": "صوف",
