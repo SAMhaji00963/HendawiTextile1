@@ -1308,6 +1308,9 @@ const DEFAULT_GITHUB_CONFIG = {
   token: ''
 };
 
+const PUBLIC_CATALOG_PATH = 'data/catalog.json';
+const ADMIN_PIN_KEY = 'hnd_admin_pin';
+
 const SAMPLE_PRODUCTS = [
   { id: '1', name: 'قطن مصري فاخر', category: 'قطن', price: '45', width: '150 سم', stock: '80 متر', desc: 'قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.', images: [], featured: true, isNew: true, isSale: false },
   { id: '2', name: 'حرير طبيعي إيطالي', category: 'حرير', price: '180', width: '140 سم', stock: '30 متر', desc: 'حرير طبيعي من إيطاليا بجودة عالمية، لامع وخفيف الوزن.', images: [], featured: false, isNew: false, isSale: true },
@@ -1323,6 +1326,19 @@ let currentFilter = 'all';
 let editingProductId = null;
 let catalogSha = null;
 let storageMode = 'demo';
+
+function hasLocalAdminPin() {
+  return Boolean(localStorage.getItem(ADMIN_PIN_KEY));
+}
+
+function saveLocalAdminPin(pin) {
+  localStorage.setItem(ADMIN_PIN_KEY, btoa(pin));
+}
+
+function isValidLocalAdminPin(pin) {
+  const savedPin = localStorage.getItem(ADMIN_PIN_KEY);
+  return Boolean(savedPin) && btoa(pin) === savedPin;
+}
 
 function loadGithubConfig() {
   try {
@@ -1416,6 +1432,19 @@ async function loadCatalogFromGitHub() {
   return true;
 }
 
+async function loadPublicCatalog() {
+  const response = await fetch(PUBLIC_CATALOG_PATH, { cache: 'no-store' });
+  if (!response.ok) {
+    throw new Error(`Public catalog error ${response.status}`);
+  }
+
+  const catalog = normalizeCatalog(await response.json());
+  products = catalog.products;
+  settings = catalog.settings;
+  storageMode = 'public';
+  return true;
+}
+
 async function saveCatalogToGitHub(message) {
   if (!isGitHubConfigured()) throw new Error('أكمل إعدادات GitHub أولًا');
 
@@ -1477,9 +1506,13 @@ function loadGitHubConfigIntoForm() {
 }
 
 function updateStorageStatus(message) {
-  const status = message || (storageMode === 'github'
-    ? `المخزن الحالي: GitHub (${githubConfig.owner}/${githubConfig.repo})`
-    : 'المخزن الحالي: وضع تجريبي حتى يتم ربط GitHub.');
+  const status = message || (
+    storageMode === 'github'
+      ? `المخزن الحالي: GitHub (${githubConfig.owner}/${githubConfig.repo})`
+      : storageMode === 'public'
+        ? 'المتجر يقرأ البيانات العامة مباشرة من catalog.json المنشور.'
+        : 'المخزن الحالي: وضع تجريبي حتى يتم ربط GitHub.'
+  );
   document.getElementById('storageStatus').innerHTML = `<strong>حالة التخزين</strong>${status}`;
 }
 
@@ -1595,12 +1628,26 @@ function closeLightboxBtn() {
 }
 
 // ======= PASSWORD PROTECTION =======
-const ADMIN_HASH = '7f3d9e2b1a8c4f6e0d5b2a9c7e4f1d8b3a6c9e2f5d0b7a4c1e8f3d6a9b2c5'; // not real hash, using custom check
-const CORRECT_PW = btoa('Dimensity_$333Yi'); // obfuscated in base64
-
 let pwAttempts = 0;
 const MAX_ATTEMPTS = 5;
 let lockoutUntil = 0;
+
+function setAdminModalMode() {
+  const modalTitle = document.querySelector('.pw-modal h3');
+  const modalDesc = document.querySelector('.pw-modal p');
+  const submitButton = document.querySelector('.pw-submit');
+
+  if (!hasLocalAdminPin()) {
+    modalTitle.textContent = 'إعداد رمز الإدارة';
+    modalDesc.textContent = 'أنشئ رمزًا محليًا لهذا الجهاز. هذا الرمز لا يُنشر داخل الموقع.';
+    submitButton.textContent = 'حفظ الرمز';
+    return;
+  }
+
+  modalTitle.textContent = 'لوحة التحكم';
+  modalDesc.textContent = 'أدخل رمز الإدارة المحلي للوصول إلى لوحة إدارة المنتجات';
+  submitButton.textContent = 'دخول →';
+}
 
 function openAdmin() {
   // Check if already authenticated this session
@@ -1614,6 +1661,8 @@ function openAdmin() {
   document.getElementById('pwInput').value = '';
   document.getElementById('pwError').textContent = '';
   document.getElementById('pwAttempts').textContent = '';
+  document.getElementById('pwInput').disabled = false;
+  setAdminModalMode();
   document.getElementById('pwInput').focus();
   document.body.style.overflow = 'hidden';
 }
@@ -1627,30 +1676,45 @@ function checkPassword() {
   }
 
   const input = document.getElementById('pwInput').value;
-  if (btoa(input) === CORRECT_PW) {
-    // Correct password
+  if (!input || input.length < 4) {
+    showPwError('أدخل رمزًا لا يقل عن 4 أحرف أو أرقام');
+    return;
+  }
+
+  if (!hasLocalAdminPin()) {
+    saveLocalAdminPin(input);
+    pwAttempts = 0;
+    sessionStorage.setItem('hnd_auth', 'true');
+    document.getElementById('pwOverlay').classList.remove('open');
+    document.getElementById('pwInput').classList.remove('error');
+    showToast('تم حفظ رمز الإدارة المحلي لهذا الجهاز');
+    _openAdminPanel();
+    return;
+  }
+
+  if (isValidLocalAdminPin(input)) {
     pwAttempts = 0;
     sessionStorage.setItem('hnd_auth', 'true');
     document.getElementById('pwOverlay').classList.remove('open');
     document.getElementById('pwInput').classList.remove('error');
     _openAdminPanel();
-  } else {
-    // Wrong password
-    pwAttempts++;
-    document.getElementById('pwInput').classList.add('error');
-    setTimeout(() => document.getElementById('pwInput').classList.remove('error'), 500);
-    document.getElementById('pwInput').value = '';
+    return;
+  }
 
-    const remaining = MAX_ATTEMPTS - pwAttempts;
-    if (pwAttempts >= MAX_ATTEMPTS) {
-      lockoutUntil = Date.now() + 60000; // 60 second lockout
-      showPwError('🔒 محاولات متعددة! انتظر 60 ثانية');
-      pwAttempts = 0;
-      startLockoutCountdown();
-    } else {
-      showPwError(`❌ كلمة المرور خاطئة — تبقى ${remaining} محاولة`);
-      document.getElementById('pwAttempts').textContent = `محاولة ${pwAttempts} من ${MAX_ATTEMPTS}`;
-    }
+  pwAttempts++;
+  document.getElementById('pwInput').classList.add('error');
+  setTimeout(() => document.getElementById('pwInput').classList.remove('error'), 500);
+  document.getElementById('pwInput').value = '';
+
+  const remaining = MAX_ATTEMPTS - pwAttempts;
+  if (pwAttempts >= MAX_ATTEMPTS) {
+    lockoutUntil = Date.now() + 60000; // 60 second lockout
+    showPwError('🔒 محاولات متعددة! انتظر 60 ثانية');
+    pwAttempts = 0;
+    startLockoutCountdown();
+  } else {
+    showPwError(`❌ الرمز غير صحيح — تبقى ${remaining} محاولة`);
+    document.getElementById('pwAttempts').textContent = `محاولة ${pwAttempts} من ${MAX_ATTEMPTS}`;
   }
 }
 
@@ -1903,6 +1967,23 @@ async function saveGithubConfig() {
     updateStorageStatus();
     showToast('تم ربط GitHub بنجاح');
   } catch (error) {
+    if (String(error.message || '').includes('404')) {
+      try {
+        if (products.length === 0) {
+          products = [...SAMPLE_PRODUCTS];
+        }
+        await saveCatalogToGitHub('Initialize catalog');
+        storageMode = 'github';
+        updateStorageStatus();
+        showToast('تم إنشاء catalog.json وربط GitHub بنجاح');
+        return;
+      } catch (initError) {
+        storageMode = 'demo';
+        updateStorageStatus(`تعذر الاتصال: ${initError.message}`);
+        showToast(initError.message);
+        return;
+      }
+    }
     storageMode = 'demo';
     updateStorageStatus(`تعذر الاتصال: ${error.message}`);
     showToast(error.message);
@@ -1918,15 +1999,28 @@ function showToast(msg) {
 }
 
 // ======= INIT =======
-
+renderProducts('all');
 
 // Add sample data if empty
-
+if (false && products.length === 0) {
+  const samples = [
+    { id: '1', name: 'قطن مصري فاخر', category: 'قطن', price: '45', width: '150 سم', stock: '80 متر', desc: 'قطن طبيعي 100% من أجود أنواع القطن المصري، ناعم الملمس ومناسب لجميع المناسبات.', images: [], featured: true, isNew: true, isSale: false },
+    { id: '2', name: 'حرير طبيعي إيطالي', category: 'حرير', price: '180', width: '140 سم', stock: '30 متر', desc: 'حرير طبيعي من إيطاليا بجودة عالمية، لامع وخفيف الوزن.', images: [], featured: false, isNew: false, isSale: true },
+    { id: '3', name: 'كتان بلجيكي', category: 'كتان', price: '65', width: '160 سم', stock: '50 متر', desc: 'كتان فاخر من بلجيكا، متين ومناسب للملابس والديكور.', images: [], featured: false, isNew: true, isSale: false },
+  ];
+  products = samples;
+  saveData();
+  renderProducts('all');
+}
 
 async function initApp() {
   loadGitHubConfigIntoForm();
 
-  if (isGitHubConfigured()) {
+  try {
+    await loadPublicCatalog();
+  } catch (error) {}
+
+  if (products.length === 0 && isGitHubConfigured()) {
     try {
       await loadCatalogFromGitHub();
     } catch (error) {
@@ -1935,7 +2029,9 @@ async function initApp() {
     }
   }
 
-
+  if (products.length === 0) {
+    products = [...SAMPLE_PRODUCTS];
+  }
 
   renderProducts('all');
   renderAdminList();
