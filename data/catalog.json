@@ -59,21 +59,6 @@
       "featured": true,
       "isNew": true,
       "isSale": false
-    },
-    {
-      "id": "1776528876019",
-      "name": "عينة الوان",
-      "category": "أخرى",
-      "price": "",
-      "width": "",
-      "stock": "",
-      "desc": "لا يوجد وصف",
-      "images": [
-        "https://raw.githubusercontent.com/SAMhaji00963/HendawiTextile1/main/data/images/1776528876019-1776528876019-0.jpg"
-      ],
-      "featured": true,
-      "isNew": true,
-      "isSale": false
     }
   ],
   "settings": {
